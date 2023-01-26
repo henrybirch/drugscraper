@@ -1,3 +1,5 @@
+package drugscraper
+
 import net.ruippeixotog.scalascraper
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
@@ -17,6 +19,11 @@ class DrugTestScraper(drugsPage: String) {
   private val tests = browser.get(drugsPage)
   private val drugsDataRootUrl = "https://www.drugsdata.org/"
 
+  def getAllDrugTests(): Seq[WebsiteRecord] = {
+    (tests >> element("#MainResults") >> element("tbody")).children.map(el =>
+                                                                          getWebsiteRecord(el)).toSeq
+  }
+
   private def getWebsiteRecord(rowElement: scalascraper.model.Element) = {
     val sampleNameElement = (rowElement >> element(".sample-name"))
 
@@ -35,6 +42,9 @@ class DrugTestScraper(drugsPage: String) {
 
     val id = leftTbody.select(":eq(1)").head.text.toIntOption
 
+    val pictureUrl = (detailsModule >?> element(".TabletPhoto-set") >?>
+      element(".TabletMedium")).flatten.map(el => el.attr("src"))
+
     val soldAs =
       (sampleNameElement >?> text(".sold-as"))
 
@@ -42,23 +52,15 @@ class DrugTestScraper(drugsPage: String) {
       (sampleNameElement >?> text("a"))
 
     val substances =
-      (rowElement >?> texts(".Substance li"))
+      (rowElement >?> texts(".Substance li")).map(_.toList)
 
     val amounts = {
       val amounts = rowElement >?> texts(".Amounts li")
-      for (strAmounts <- amounts) yield strAmounts.map(_.toInt)
+      for (strAmounts <- amounts) yield strAmounts.map(_.toDoubleOption).toList
     }
 
-    val testDate = {
-      val scrapedStr = rightTbody.select(":eq(1)").head.text
-      val formatter = DateTimeFormatter.ofPattern("MMM dd, uuuu")
-      try {
-        val localDate = LocalDate.parse(scrapedStr, formatter)
-        Some(Date.valueOf(localDate))
-      } catch {
-        case e: DateTimeParseException => None
-      }
-    }
+    val testDate = parseDrugTestDateStrToDate(rightTbody.select(":eq(1)")
+                                                        .head.text)
 
     val srcLocation = getDrugTestTbodyAttribute(rightTbody, 2)
 
@@ -68,10 +70,14 @@ class DrugTestScraper(drugsPage: String) {
 
     val size = getDrugTestTbodyAttribute(rightTbody, 5)
 
+    WebsiteRecord(id, soldAs, pictureUrl, sampleName, substances, amounts,
+                  testDate, srcLocation, submitterLocation, colour, size)
+
   }
 
   private def getDrugTestUrl(
-                              sampleNameElementInRow: scalascraper.model.Element
+                              sampleNameElementInRow: scalascraper.model
+                              .Element
                             ): String =
     drugsDataRootUrl + (sampleNameElementInRow >> element("a"))
       .attr("href")
@@ -79,18 +85,31 @@ class DrugTestScraper(drugsPage: String) {
   private def getDrugTestTbodyAttribute(
                                          tbody: scalascraper.model.Element,
                                          index: Int
-                                       ): String =
-    tbody.select(s":eq($index)").head.children.tail.head.text
+                                       ): Option[String] = {
+    try {
+      Some(tbody.select(s":eq($index)").head.children.tail.head.text)
+    } catch {
+      case e: NoSuchElementException => None
+    }
+  }
 
-  case class WebsiteRecord(Option: Option[Int], soldAs: Option[String],
+  private def parseDrugTestDateStrToDate(scrapedStr: String): Option[Date] = {
+    val formatter = DateTimeFormatter.ofPattern("MMM dd, uuuu")
+    try {
+      val localDate = LocalDate.parse(scrapedStr, formatter)
+      Some(Date.valueOf(localDate))
+    } catch {
+      case e: DateTimeParseException => None
+    }
+  }
+
+  case class WebsiteRecord(id: Option[Int], soldAs: Option[String],
                            pictureUrl: Option[String],
                            sampleName: Option[String],
                            substances: Option[List[String]],
-                           amounts: Option[List[Double]],
+                           amounts: Option[List[Option[Double]]],
                            testDate: Option[Date],
                            srcLocation: Option[String],
                            submitterLocation: Option[String],
                            colour: Option[String], size: Option[String])
-
-
 }
