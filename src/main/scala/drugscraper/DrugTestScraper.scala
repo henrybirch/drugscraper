@@ -1,5 +1,6 @@
 package drugscraper
 
+import drugscraper.DrugTestScraper._
 import net.ruippeixotog.scalascraper
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
@@ -7,7 +8,6 @@ import net.ruippeixotog.scalascraper.scraper.ContentExtractors.{element,
   text, texts}
 import org.jsoup.Connection
 
-import java.sql.Date
 import java.time.LocalDate
 import java.time.format.{DateTimeFormatter, DateTimeParseException}
 
@@ -17,14 +17,15 @@ class DrugTestScraper(drugsPage: String) {
       conn.timeout(30 * 60000)
   }
   private val tests = browser.get(drugsPage)
-  private val drugsDataRootUrl = "https://www.drugsdata.org/"
 
   def getAllDrugTests(): Seq[WebsiteRecord] = {
-    (tests >> element("#MainResults") >> element("tbody")).children.map(el =>
-                                                                          getWebsiteRecord(el)).toSeq
+    getAllRowElements().map(el => getWebsiteRecord(el)).toSeq
   }
 
-  private def getWebsiteRecord(rowElement: scalascraper.model.Element) = {
+  def getAllRowElements(): Iterable[scalascraper.model.Element] =
+    (tests >> element("#MainResults") >> element("tbody")).children
+
+  def getWebsiteRecord(rowElement: scalascraper.model.Element) = {
     val sampleNameElement = (rowElement >> element(".sample-name"))
 
     val singleDrugTestPage = browser.get(getDrugTestUrl(sampleNameElement))
@@ -75,6 +76,12 @@ class DrugTestScraper(drugsPage: String) {
 
   }
 
+
+}
+
+object DrugTestScraper {
+  private val drugsDataRootUrl = "https://www.drugsdata.org/"
+
   private def getDrugTestUrl(
                               sampleNameElementInRow: scalascraper.model
                               .Element
@@ -93,11 +100,11 @@ class DrugTestScraper(drugsPage: String) {
     }
   }
 
-  private def parseDrugTestDateStrToDate(scrapedStr: String): Option[Date] = {
+  private def parseDrugTestDateStrToDate(scrapedStr: String): Option[String] = {
     val formatter = DateTimeFormatter.ofPattern("MMM dd, uuuu")
     try {
-      val localDate = LocalDate.parse(scrapedStr, formatter)
-      Some(Date.valueOf(localDate))
+      val localDate = LocalDate.parse(scrapedStr, formatter).toString
+      Some(localDate)
     } catch {
       case e: DateTimeParseException => None
     }
@@ -108,8 +115,9 @@ class DrugTestScraper(drugsPage: String) {
                            sampleName: Option[String],
                            substances: Option[List[String]],
                            amounts: Option[List[Option[Double]]],
-                           testDate: Option[Date],
+                           testDate: Option[String],
                            srcLocation: Option[String],
                            submitterLocation: Option[String],
                            colour: Option[String], size: Option[String])
+
 }
