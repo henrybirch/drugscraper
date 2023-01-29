@@ -4,12 +4,12 @@ import drugscraper.DrugTestScraper._
 import net.ruippeixotog.scalascraper
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
-import net.ruippeixotog.scalascraper.scraper.ContentExtractors.{element,
-  text, texts}
+import net.ruippeixotog.scalascraper.scraper.ContentExtractors.{element, text, texts}
 import org.jsoup.Connection
 
 import java.time.LocalDate
 import java.time.format.{DateTimeFormatter, DateTimeParseException}
+
 
 class DrugTestScraper(drugsPage: String) {
   private val browser = new JsoupBrowser {
@@ -35,11 +35,11 @@ class DrugTestScraper(drugsPage: String) {
     val rightTbody =
       detailsModule >> element(
         ".TabletDataRight"
-        ) >> element("tbody")
+      ) >> element("tbody")
 
     val leftTbody = detailsModule >> element(
       ".TabletDataLeft"
-      ) >> element("tbody")
+    ) >> element("tbody")
 
     val id = leftTbody.select(":eq(1)").head.text.toIntOption
 
@@ -47,7 +47,8 @@ class DrugTestScraper(drugsPage: String) {
       element(".TabletMedium")).flatten.map(el => el.attr("src"))
 
     val soldAs =
-      (sampleNameElement >?> text(".sold-as"))
+      (sampleNameElement >?> text(".sold-as")).map(_.split(": ").lastOption)
+        .flatten
 
     val sampleName =
       (sampleNameElement >?> text("a"))
@@ -61,7 +62,7 @@ class DrugTestScraper(drugsPage: String) {
     }
 
     val testDate = parseDrugTestDateStrToDate(rightTbody.select(":eq(1)")
-                                                        .head.text)
+      .head.text)
 
     val srcLocation = getDrugTestTbodyAttribute(rightTbody, 2)
 
@@ -72,7 +73,7 @@ class DrugTestScraper(drugsPage: String) {
     val size = getDrugTestTbodyAttribute(rightTbody, 5)
 
     WebsiteRecord(id, soldAs, pictureUrl, sampleName, substances, amounts,
-                  testDate, srcLocation, submitterLocation, colour, size)
+      testDate, srcLocation, submitterLocation, colour, size)
 
   }
 
