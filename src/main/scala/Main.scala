@@ -45,8 +45,6 @@ object Main extends IOApp.Simple {
     val outputs = getApiCallUrls.zipWithIndex.map { case (url, index) =>
       Output("scrape_" + date + s"_$index.json", url)
     }
-    println(outputs.length)
-    throw new Error("sdafas")
     EmberClientBuilder.default[IO].build.use { client =>
       outputs.parTraverse(output => saveJson(client, output)).map(_ => ())
     }
