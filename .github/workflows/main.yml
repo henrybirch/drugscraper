@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: oracle
 
       - name: Set up Scala
         uses: olafurpg/setup-scala@v10
