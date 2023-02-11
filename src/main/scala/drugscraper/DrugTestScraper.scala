@@ -37,14 +37,14 @@ class DrugTestScraper(drugsPage: String) {
   }
 
   /** Returns all row elements that contain the detailed drug test URL to be scraped
-    * @return
+    * @return Iterable[Element]
     */
   private def getAllRowElements: Iterable[scalascraper.model.Element] =
     (tests >> element("#MainResults") >> element("tbody")).children
 
   /** Access the row element, then gets the detailed drug page HTML and parses the drug data to a WebsiteRecord
     * @param rowElement
-    * @return
+    * @return WebsiteRecord
     */
   private def getWebsiteRecord(
       rowElement: scalascraper.model.Element
