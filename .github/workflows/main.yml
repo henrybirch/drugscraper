@@ -12,10 +12,10 @@ env:
   TAG: latest
 
 jobs:
-  permissions:
-    contents: 'read'
-    id-token: 'write'
   build:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
