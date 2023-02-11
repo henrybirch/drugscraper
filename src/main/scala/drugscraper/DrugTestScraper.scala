@@ -17,11 +17,6 @@ import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import java.util.concurrent.TimeUnit
 
 class DrugTestScraper(drugsPage: String) {
-  private val browser: JsoupBrowser = new JsoupBrowser {
-    override def requestSettings(conn: Connection): Connection =
-      conn.timeout(30 * 60000)
-  }
-
   private val tests: JsoupBrowser.JsoupDocument = browser.get(drugsPage)
 
   /** Returns all drug tests that are present in the url drugsPage
@@ -118,6 +113,11 @@ class DrugTestScraper(drugsPage: String) {
 }
 
 object DrugTestScraper {
+  private val browser: JsoupBrowser = new JsoupBrowser {
+    override def requestSettings(conn: Connection): Connection =
+      conn.timeout(30 * 60000)
+  }
+
   private val drugsDataRootUrl: String = "https://www.drugsdata.org/"
 
   /** Returns the URL for the detailed drug test page from a row element in the main table
