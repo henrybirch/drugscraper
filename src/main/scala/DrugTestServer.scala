@@ -30,7 +30,7 @@ object DrugTestServer extends IOApp {
 
   /** Returns HttpRoutes[IO] composed of a root/scrape/{url} route that takes an encoded url string and returns a
     * sequence of website records serialised as a json (list of objects)
-    * @return HttpRoutes[IO] takes requests and outputs the response
+    * @return HttpRoutes[IO]
     */
   private def drugRoutes: HttpRoutes[IO] = {
     val dsl: Http4sDsl[IO] = Http4sDsl[IO]
