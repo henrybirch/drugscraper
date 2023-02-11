@@ -1,0 +1,46 @@
+name: Scala Docker Image and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+  GCR_REGISTRY: gcr.io/us-docker.pkg.dev/trans-sunset-370818
+  IMAGE_NAME: drugscraper/api
+  TAG: latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 8
+
+    - name: Set up Scala
+      uses: actions/setup-scala@v2
+      with:
+        scala-version: 2.13.10
+
+    - name: Assemble Scala application
+      run: sbt assembly
+      
+    - name: Authenticate with Google Cloud
+      uses: google-actions/configure-google-cloud-credentials@v1
+      with:
+        credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
+    - name: Build Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ env.GCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+
