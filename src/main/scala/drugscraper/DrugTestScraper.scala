@@ -9,6 +9,7 @@ import org.jsoup.Connection
 
 import java.time.LocalDate
 import java.time.format.{DateTimeFormatter, DateTimeParseException}
+import java.util.concurrent.TimeUnit
 
 
 class DrugTestScraper(drugsPage: String) {
@@ -19,7 +20,7 @@ class DrugTestScraper(drugsPage: String) {
   private val tests = browser.get(drugsPage)
 
   def getAllDrugTests(): Seq[WebsiteRecord] = {
-    getAllRowElements().map(el => getWebsiteRecord(el)).toSeq
+    getAllRowElements().map(el => {TimeUnit.SECONDS.sleep(1); getWebsiteRecord(el)}).toSeq
   }
 
   def getAllRowElements(): Iterable[scalascraper.model.Element] =
@@ -47,8 +48,7 @@ class DrugTestScraper(drugsPage: String) {
       element(".TabletMedium")).flatten.map(el => el.attr("src"))
 
     val soldAs =
-      (sampleNameElement >?> text(".sold-as")).map(_.split(": ").lastOption)
-        .flatten
+      (sampleNameElement >?> text(".sold-as")).flatMap(_.split(": ").lastOption)
 
     val sampleName =
       (sampleNameElement >?> text("a"))
@@ -58,7 +58,7 @@ class DrugTestScraper(drugsPage: String) {
 
     val amounts = {
       val amounts = rowElement >?> texts(".Amounts li")
-      for (strAmounts <- amounts) yield strAmounts.map(_.toDoubleOption).toList
+      (for (strAmounts <- amounts) yield strAmounts.map(_.toDoubleOption).toList.flatten)
     }
 
     val testDate = parseDrugTestDateStrToDate(rightTbody.select(":eq(1)")
@@ -115,7 +115,7 @@ object DrugTestScraper {
                            pictureUrl: Option[String],
                            sampleName: Option[String],
                            substances: Option[List[String]],
-                           amounts: Option[List[Option[Double]]],
+                           amounts: Option[List[Double]],
                            testDate: Option[String],
                            srcLocation: Option[String],
                            submitterLocation: Option[String],
