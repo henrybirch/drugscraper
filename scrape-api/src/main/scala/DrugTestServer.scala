@@ -1,7 +1,6 @@
 import cats.data.Kleisli
 import cats.effect.{ExitCode, IO, IOApp}
 import com.comcast.ip4s.IpLiteralSyntax
-import drugscraper.DrugTestScraper
 import io.circe.Json
 import io.circe.generic.auto._
 import io.circe.syntax.EncoderOps

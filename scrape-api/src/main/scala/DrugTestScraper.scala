@@ -1,15 +1,9 @@
-package drugscraper
-
-import drugscraper.DrugTestScraper._
+import DrugTestScraper._
 import net.ruippeixotog.scalascraper
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.model.Element
-import net.ruippeixotog.scalascraper.scraper.ContentExtractors.{
-  element,
-  text,
-  texts
-}
+import net.ruippeixotog.scalascraper.scraper.ContentExtractors.{element, text, texts}
 import org.jsoup.Connection
 
 import java.time.LocalDate
