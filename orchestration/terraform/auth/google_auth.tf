@@ -1,3 +1,21 @@
+variable "gcp_project" {
+  type    = string
+  default = "drugscraper-377523"
+}
+
+variable "sa_id" {
+  type    = string
+  default = "drugscraper-sa"
+}
+
+variable "github_owner" {
+  type = string
+}
+
+variable "drugscraper_repository" {
+  type = string
+}
+
 resource google_project_service "sa_key_api" {
   project = var.gcp_project
   service = "iamcredentials.googleapis.com"
@@ -5,7 +23,7 @@ resource google_project_service "sa_key_api" {
 
 
 resource "google_service_account" "sa" {
-  account_id   = "drugscraper-sa"
+  account_id   = var.sa_id
   display_name = "Drugscraper Service Account"
 }
 
@@ -52,5 +70,5 @@ resource "google_project_iam_member" "gcs_admin" {
 resource "google_service_account_iam_member" "wif_sa" {
   service_account_id = "projects/${var.gcp_project}/serviceAccounts/${google_service_account.sa.email}"
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.cicd_pool.name}/attribute.repository/${var.github_owner}/${var.drugscraper_api_repository}"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.cicd_pool.name}/attribute.repository/${var.github_owner}/${var.drugscraper_repository}"
 }
