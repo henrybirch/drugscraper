@@ -13,3 +13,6 @@ variable "github_owner" {
 variable "drugscraper_repository_name" {
   type = string
 }
+
+
+
