@@ -2,7 +2,7 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.10"
 
-lazy val scrapeAll = (project in file("scrape-all")).settings(
+lazy val scrapeAll = (project in file("ScrapeAll")).settings(
   libraryDependencies ++= Seq(
     dependencies.catsCore,
     dependencies.googleCloudStorage,
@@ -23,9 +23,10 @@ lazy val scrapeAll = (project in file("scrape-all")).settings(
     case x =>
       val oldStrategy = (assembly / assemblyMergeStrategy).value
       oldStrategy(x)
-  }
+  },
+  assembly / assemblyJarName := "scrape-all.jar"
 )
-lazy val scrapeApi = (project in file("scrape-api")).settings(
+lazy val scrapeApi = (project in file("ScrapeApi")).settings(
   libraryDependencies ++= Seq(
     dependencies.scalaScraper,
     dependencies.http4sDsl,
@@ -42,7 +43,8 @@ lazy val scrapeApi = (project in file("scrape-api")).settings(
     case x =>
       val oldStrategy = (assembly / assemblyMergeStrategy).value
       oldStrategy(x)
-  }
+  },
+  assembly / assemblyJarName := "scrape-api.jar"
 )
 
 lazy val circeVersion = "0.14.4"
