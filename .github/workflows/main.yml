@@ -21,6 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Navigate to scrape-api folder
+        run: cd scrape-api
+
       - name: Set up JDK
         uses: actions/setup-java@v3.10.0
         working-directory: scrape-api
