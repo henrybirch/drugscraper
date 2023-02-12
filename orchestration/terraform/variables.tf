@@ -9,7 +9,8 @@ variable "drugscraper_repository_name" {
 }
 
 variable "gcp_project" {
-  type = string
+  type    = string
+  default = "drugscraper-377523"
 }
 
 variable "github_owner" {
