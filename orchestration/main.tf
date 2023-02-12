@@ -21,11 +21,11 @@ provider "github" {
 }
 
 module "auth" {
-  source = "./auth"
+  source = "auth"
 }
 
 module "artifact_repository" {
-  source = "./artifact_repository"
+  source = "artifact_repository"
 }
 
 
