@@ -26,31 +26,26 @@ jobs:
 
       - name: Set up JDK
         uses: actions/setup-java@v3.10.0
-        working-directory: scrape-api
         with:
           java-version: 17
           distribution: oracle
 
       - name: Set up Scala
         uses: olafurpg/setup-scala@v10
-        working-directory: scrape-api
         with:
           scala-version: 2.13.10
 
       - name: Assemble Scala application
         run: sbt assembly
-        working-directory: scrape-api
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
-        working-directory: scrape-api
         with:
           workload_identity_provider: ${{ secrets.WIF_POOL }}
           service_account: ${{ secrets.SA_EMAIL }}
 
       - name: Build Docker Image
         uses: docker/build-push-action@v2
-        working-directory: scrape-api
         with:
           context: .
           push: true
