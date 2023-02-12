@@ -21,9 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Navigate to scrape-api folder
-        run: cd scrape-api
-
       - name: Set up JDK
         uses: actions/setup-java@v3.10.0
         with:
@@ -37,6 +34,7 @@ jobs:
 
       - name: Assemble Scala application
         run: sbt assembly
+        working-directory: scrape-api
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -47,7 +45,7 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: scrape-api
           push: true
           tags: ${{ env.GCR_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
       
