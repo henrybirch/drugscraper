@@ -1,11 +1,9 @@
 variable "gcp_project" {
-  type    = string
-  default = "drugscraper-377523"
+  type = string
 }
 
 variable "sa_id" {
-  type    = string
-  default = "drugscraper-sa"
+  type = string
 }
 
 variable "github_owner" {

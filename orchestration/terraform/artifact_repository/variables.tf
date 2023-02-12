@@ -1,9 +1,7 @@
 variable default_location {
-  type    = string
-  default = "us-central1"
+  type = string
 }
 
 variable artifact_repository_id {
-  type    = string
-  default = "drugscraper-repo"
+  type = string
 }
