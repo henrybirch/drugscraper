@@ -38,3 +38,4 @@ variable "drugscraper_api_image_tag" {
   default = "latest"
 }
 
+
