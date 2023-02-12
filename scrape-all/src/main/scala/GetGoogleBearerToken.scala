@@ -5,6 +5,7 @@ import com.google.auth.oauth2.{
 }
 
 object GetGoogleBearerToken {
+  val drugscrapeApiUrl = sys.env("DRUGSCRAPER_API_URL")
 
   /** Returns google bearer token based on application's default google credentials
     * @return
@@ -16,7 +17,7 @@ object GetGoogleBearerToken {
     val idBuilder: IdTokenCredentials = IdTokenCredentials
       .newBuilder()
       .setIdTokenProvider(credentials.asInstanceOf[IdTokenProvider])
-      .setTargetAudience("https://drugscraper-api-7x2jgthdga-uc.a.run.app")
+      .setTargetAudience(drugscrapeApiUrl)
       .build()
     idBuilder.refresh()
     idBuilder.getIdToken.getTokenValue
