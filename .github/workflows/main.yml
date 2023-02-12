@@ -6,8 +6,7 @@ on:
       - main
 
 env:
-  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-  GCR_REGISTRY: gcr.io/us-docker.pkg.dev/trans-sunset-370818
+  GCR_REGISTRY: gcr.io/us-docker.pkg.dev/drugscraper-project
   IMAGE_NAME: drugscraper/api
   TAG: latest
 
