@@ -35,11 +35,11 @@ jobs:
 
       - name: terraform validate
         run: terraform validate
-        working-directory: orchestration
+        working-directory: orchestration/main
 
       - name: terraform apply
         run: terraform apply -auto-approve
-        working-directory: orchestration
+        working-directory: orchestration/main
         env:
           TF_VAR_github_token: ${{secrets.TOKEN_GITHUB}}
           TF_VAR_github_owner: ${{secrets.OWNER_GITHUB}}
