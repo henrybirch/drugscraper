@@ -14,8 +14,12 @@ variable "gcp_project" {
 }
 
 variable "github_owner" {
-  type    = string
-  default = "henrybirch"
+  type = string
+}
+
+variable "github_token" {
+  type      = string
+  sensitive = true
 }
 
 variable "default_location" {
