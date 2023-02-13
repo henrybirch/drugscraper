@@ -16,7 +16,7 @@ resource "google_project_iam_member" "bq_member" {
 }
 
 resource "google_iam_workload_identity_pool" "cicd_pool" {
-  workload_identity_pool_id = "cicd-pool-2"             # Name of the pool for use in API calls
+  workload_identity_pool_id = var.workload_identity_pool_id             # Name of the pool for use in API calls
   display_name              = "CI/CD Identity Pool"   # Name of the pool in the console
 }
 
