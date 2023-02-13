@@ -25,16 +25,6 @@ provider "github" {
   owner = var.github_owner
 }
 
-
-module "auth" {
-  source                 = "./auth"
-  drugscraper_repository_name = var.drugscraper_repository_name
-  gcp_project            = "drugscraper-377523"
-  github_owner           = var.github_owner
-  sa_id                  = "drugscraper-sa"
-}
-
-
 module "artifact_repository" {
   source                 = "./artifact_repository"
   artifact_repository_id = "drugscraper-repository"
