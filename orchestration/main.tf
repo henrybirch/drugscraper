@@ -32,7 +32,7 @@ module "artifact_repository" {
 }
 
 module "scrape_api_cloud_run" {
-  depends_on       = [module.auth, module.artifact_repository]
+  depends_on       = [module.artifact_repository]
   source           = "./scrape_api_cloud_run"
   api_name         = "drugscraper-api"
   default_location = var.default_location
