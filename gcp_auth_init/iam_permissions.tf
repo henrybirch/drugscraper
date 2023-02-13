@@ -9,6 +9,14 @@ locals {
   sa_member = "serviceAccount:${google_service_account.sa.email}"
 }
 
+resource "google_service_account_iam_binding" "run_admin_role" {
+  service_account_id = "compute.googleapis.com"
+  role               = "roles/run.admin"
+  members            = [
+    local.sa_member
+  ]
+}
+
 resource "google_project_iam_member" "gcs_admin" {
   member  = "serviceAccount:${google_service_account.sa.email}"
   role    = "roles/storage.admin"
@@ -17,20 +25,20 @@ resource "google_project_iam_member" "gcs_admin" {
 
 
 resource "google_project_iam_member" "artifact_repository" {
-  role               = "roles/artifactregistry.admin"
-  member             = local.sa_member
+  role    = "roles/artifactregistry.admin"
+  member  = local.sa_member
   project = var.gcp_project
 }
 
 resource "google_project_iam_member" "sa_user" {
-  role = "roles/iam.serviceAccountUser"
-  member = local.sa_member
+  role    = "roles/iam.serviceAccountUser"
+  member  = local.sa_member
   project = var.gcp_project
 }
 
 resource "google_project_iam_member" "run_admin" {
-  role = "roles/run.admin"
-  member = local.sa_member
+  role    = "roles/run.admin"
+  member  = local.sa_member
   project = var.gcp_project
 }
 
