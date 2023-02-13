@@ -13,7 +13,7 @@ variable "default_location" {
   default = "us-central1"
 }
 
-variable "artifact_repository" {
+variable "artifact_repository_id" {
   type    = string
   default = "drugscraper-repo-1"
 }
