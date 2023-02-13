@@ -1,0 +1,27 @@
+name: Terraform apply
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform apply:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.17.0
+
+      - name: terraform apply
+        uses: hashicorp/terraform-action@v0
+        with:
+          args: apply
+          working-directory: orchestration
