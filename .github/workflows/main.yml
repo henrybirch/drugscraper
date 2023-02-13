@@ -12,7 +12,7 @@ env:
   API_IMAGE_TAG: latest
 
 jobs:
-  needs: terraform_apply
+  needs: terraform_apply_artifact_repository
   build and upload scrape-api:
     permissions:
       contents: 'read'

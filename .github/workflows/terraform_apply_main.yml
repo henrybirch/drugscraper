@@ -1,4 +1,4 @@
-name: Terraform apply
+name: Terraform apply artifact repository
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  terraform_apply:
+  needs: terraform_apply_main
+  terraform_apply_main:
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -26,11 +27,11 @@ jobs:
 
       - name: terraform fmt
         run: terraform fmt
-        working-directory: orchestration
+        working-directory: orchestration/main
 
       - name: terraform init
         run: terraform init -upgrade
-        working-directory: orchestration
+        working-directory: orchestration/main
 
       - name: terraform validate
         run: terraform validate
