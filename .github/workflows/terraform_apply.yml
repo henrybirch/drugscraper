@@ -22,21 +22,17 @@ jobs:
 
       - name: terraform fmt
         run: terraform fmt
-        with:
-          working-directory: orchestration
+        working-directory: orchestration
 
       - name: terraform init
         run: terraform init
-        with:
-          working-directory: orchestration
+        working-directory: orchestration
 
       - name: terraform validate
         run: terraform validate
-        with:
-          working-directory: orchestration
+        working-directory: orchestration
 
       - name: terraform apply
         run: terraform apply
-        with:
-          working-directory: orchestration
+        working-directory: orchestration
 
