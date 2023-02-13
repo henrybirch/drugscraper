@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  terraform apply:
+  terraform_apply:
     permissions:
       contents: 'read'
       id-token: 'write'
