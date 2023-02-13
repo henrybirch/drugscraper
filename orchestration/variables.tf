@@ -15,7 +15,7 @@ variable "default_location" {
 
 variable "artifact_repository_id" {
   type    = string
-  default = "drugscraper-repo-1"
+  default = "drugscraper-repo-2"
 }
 
 variable "drugscraper_api_image_name" {

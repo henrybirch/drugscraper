@@ -23,7 +23,7 @@ resource "google_project_iam_member" "artifact_repository" {
 }
 
 resource "google_project_iam_member" "sa_user" {
-  role = "roles/serviceAccountUser"
+  role = "roles/iam.serviceAccountUser"
   member = local.sa_member
   project = var.gcp_project
 }
