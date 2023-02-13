@@ -22,13 +22,13 @@ resource "google_project_iam_member" "artifact_repository" {
   project = var.gcp_project
 }
 
-resource "google_project_iam_member" "act_as" {
+resource "google_project_iam_member" "sa_user" {
   role = "roles/serviceAccountUser"
   member = local.sa_member
   project = var.gcp_project
 }
 
-resource "google_project_iam_member" "act_as" {
+resource "google_project_iam_member" "run_admin" {
   role = "roles/run.admin"
   member = local.sa_member
   project = var.gcp_project
