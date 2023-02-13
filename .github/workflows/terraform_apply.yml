@@ -15,6 +15,13 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
+      - name: gcp auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{secrets.WIF_POOL}}
+          service_account: ${{secrets.SA_EMAIL}}
+
+
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.3
 
