@@ -15,10 +15,9 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
-      - name: setup terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 0.17.0
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+
 
       - name: terraform fmt
         run: terraform fmt
