@@ -20,8 +20,23 @@ jobs:
         with:
           terraform_version: 0.17.0
 
-      - name: terraform apply
-        uses: hashicorp/terraform-action@v0
+      - name: terraform fmt
+        run: terraform fmt
         with:
-          args: apply
           working-directory: orchestration
+
+      - name: terraform init
+        run: terraform init
+        with:
+          working-directory: orchestration
+
+      - name: terraform validate
+        run: terraform validate
+        with:
+          working-directory: orchestration
+
+      - name: terraform apply
+        run: terraform apply
+        with:
+          working-directory: orchestration
+
