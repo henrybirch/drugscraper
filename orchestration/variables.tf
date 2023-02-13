@@ -1,20 +1,6 @@
-variable "drugscraper_repository" {
-  type    = string
-  default = "henrybirch/drugscraper"
-}
-
-variable "drugscraper_repository_name" {
-  type    = string
-  default = "drugscraper"
-}
-
 variable "gcp_project" {
   type    = string
   default = "drugscraper-377523"
-}
-
-variable "github_owner" {
-  type = string
 }
 
 variable "github_token" {

@@ -18,7 +18,7 @@ provider "google" {
 }
 
 provider "github" {
-  owner = var.github_owner
+  owner = "henrybirch"
   token = var.github_token
 }
 
@@ -42,7 +42,6 @@ module "inject_image_info_github" {
   source                      = "./inject_image_info_github"
   api_image_tag               = var.drugscraper_api_image_tag
   api_image_name              = var.drugscraper_api_image_name
-  drugscraper_repository_name = var.drugscraper_repository_name
   artifact_repository_url     = join("/", ["gcr.io", var.gcp_project, var.artifact_repository])
 }
 

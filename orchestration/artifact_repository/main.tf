@@ -4,13 +4,8 @@ terraform {
       source  = "hashicorp/google"
       version = "4.52.0"
     }
-    github = {
-      source  = "integrations/github"
-      version = "5.17.0"
-    }
   }
 }
-
 
 resource "google_artifact_registry_repository" "artifact_repository" {
   location      = var.default_location
