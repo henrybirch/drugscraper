@@ -39,3 +39,7 @@ jobs:
       - name: terraform apply
         run: terraform apply -auto-approve
         working-directory: orchestration/artifact_repository
+        env:
+          TF_VAR_default_location=${{secrets.DEFAULT_LOCATION}}
+          TF_VAR_gcp_project=${{secrets.GCP_PROJECT}}
+          TF_VAR_artifact_repository_id=${{secrets.ARTIFACT_REPOSITORY_ID}}

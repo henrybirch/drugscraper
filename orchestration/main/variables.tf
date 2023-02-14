@@ -13,11 +13,6 @@ variable "default_location" {
   default = "us-central1"
 }
 
-variable "artifact_repository_id" {
-  type    = string
-  default = "drugscraper-repo-3"
-}
-
 variable "drugscraper_api_image_name" {
   type    = string
   default = "drugscraper_api"

@@ -5,3 +5,7 @@ variable default_location {
 variable artifact_repository_id {
   type = string
 }
+
+variable "gcp_project" {
+  type = string
+}

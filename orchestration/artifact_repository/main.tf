@@ -7,6 +7,11 @@ terraform {
   }
 }
 
+provider "google" {
+  project = var.gcp_project
+  region  = "us-central-1"
+}
+
 resource "google_artifact_registry_repository" "artifact_repository" {
   location      = var.default_location
   repository_id = var.artifact_repository_id
