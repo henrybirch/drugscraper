@@ -12,8 +12,8 @@ env:
   API_IMAGE_TAG: latest
 
 jobs:
-  needs: terraform_apply_artifact_repository
   build and upload scrape-api:
+    needs: terraform_apply_artifact_repository
     permissions:
       contents: 'read'
       id-token: 'write'
