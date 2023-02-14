@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  needs: terraform_apply_main
+  needs: terraform_apply_artifact_repository
   terraform_apply_main:
     permissions:
       contents: 'read'
