@@ -10,6 +10,7 @@ locals {
 }
 
 data "google_compute_default_service_account" "default" {
+  depends_on = [google_project_service.compute_engine]
 }
 
 resource "google_service_account_iam_binding" "run_admin_role" {
