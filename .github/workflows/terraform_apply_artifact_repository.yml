@@ -1,4 +1,4 @@
-name: Terraform apply artifact_repository
+name: terraform_apply_artifact_repository
 
 on:
   push:

@@ -1,9 +1,10 @@
-name: Scala Docker Image and Deploy
+name: build_api_docker_image_deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [ "terraform_apply_artifact_repository" ]
+    types:
+      - completed
 
 env:
   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
@@ -12,8 +13,7 @@ env:
   API_IMAGE_TAG: latest
 
 jobs:
-  build and upload scrape-api:
-    needs: terraform_apply_artifact_repository
+  build_and_upload_api_image:
     permissions:
       contents: 'read'
       id-token: 'write'

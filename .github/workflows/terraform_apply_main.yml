@@ -1,13 +1,13 @@
-name: Terraform apply artifact repository
+name: terraform_apply_main
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [ "build_api_docker_image_deploy" ]
+    types:
+      - completed
 
 jobs:
   terraform_apply_main:
-    needs: terraform_apply_artifact_repository
     permissions:
       contents: 'read'
       id-token: 'write'
