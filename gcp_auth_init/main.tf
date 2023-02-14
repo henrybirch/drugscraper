@@ -14,3 +14,8 @@ terraform {
 provider google {
   project = var.gcp_project
 }
+
+provider github {
+  owner = "henrybirch"
+  token = var.github_token
+}
